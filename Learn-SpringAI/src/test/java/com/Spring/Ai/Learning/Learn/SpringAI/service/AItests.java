@@ -37,7 +37,7 @@ public class AItests {
 
     @Test
     public void askLLM(){
-        var res = aiService.askAI("what is my name");
+        var res = aiService.askAI("How is Spring Boot");
         System.out.println(res);
     }
 
