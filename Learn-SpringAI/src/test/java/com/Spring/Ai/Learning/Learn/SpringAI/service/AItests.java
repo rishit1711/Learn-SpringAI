@@ -14,4 +14,12 @@ public class AItests {
         var joke = aiService.getJoke("Java");
         System.out.println(joke);
     }
+    @Test
+    public  void testEmbed(){
+        var embed = aiService.getEmbed("The weather is quite romantic");
+        System.out.println(embed.length);
+        for(float ele: embed){
+            System.out.print(ele + " ");
+        }
+    }
 }
