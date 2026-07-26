@@ -14,9 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AIService {
     private final ChatClient chatClient;
-    private final EmbeddingModel embeddingModel;
-    private final VectorStore vectorStore;
 
+    private final VectorStore vectorStore;
+    private final EmbeddingModel embeddingModel;
     public void ingest(){
         List<Document> docs = List.of(
                 new Document("Spring Boot is a framework."),
