@@ -35,6 +35,12 @@ public class AItests {
         System.out.println(res);
     }
 
+    @Test
+    public void askLLM(){
+        var res = aiService.askAI("Is java Future Dead");
+        System.out.println(res);
+    }
+
 
 }
 

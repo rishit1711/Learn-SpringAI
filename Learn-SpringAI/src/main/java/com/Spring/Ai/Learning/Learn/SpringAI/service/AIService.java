@@ -27,6 +27,10 @@ public class AIService {
 
 
     }
+    public String askAI(String prompt){
+        return chatClient.prompt().user(prompt)
+                .call().content();
+    }
     public List<Document> similaritySearch(String text){
         return  vectorStore.similaritySearch(text);
     }
@@ -34,6 +38,7 @@ public class AIService {
     public float[] getEmbed(String text){
         return embeddingModel.embed(text);
     }
+
 
     String getJoke(String topic){
         return chatClient.prompt()
