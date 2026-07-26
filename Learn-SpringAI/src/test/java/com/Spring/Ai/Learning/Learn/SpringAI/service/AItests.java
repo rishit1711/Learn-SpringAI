@@ -37,7 +37,7 @@ public class AItests {
 
     @Test
     public void askLLM(){
-        var res = aiService.askAI("Is java Future Dead");
+        var res = aiService.askAI("what is my name");
         System.out.println(res);
     }
 
