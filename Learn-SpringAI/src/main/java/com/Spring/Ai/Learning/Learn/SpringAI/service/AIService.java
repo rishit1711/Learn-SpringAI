@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ai.document.Document;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +25,33 @@ public class AIService {
                 new Document("PGVector stores embeddings.")
         );
         vectorStore.add(docs);
+        vectorStore.add(docs());
 
-
+    }
+    public static List<Document> docs(){
+        return  List.of(
+                new Document(
+                        "Spring AI Introduction",
+                        Map.of(
+                                "source", "spring-ai.pdf",
+                                "page", 1
+                        )
+                ),
+                new Document(
+                        "What is RAG?",
+                        Map.of(
+                                "source", "rag-guide.pdf",
+                                "page", 5
+                        )
+                ),
+                new Document(
+                        "Vector Databases",
+                        Map.of(
+                                "source", "pgvector.pdf",
+                                "page", 10
+                        )
+                )
+        );
     }
     public String askAI(String prompt){
         return chatClient.prompt().user(prompt)
