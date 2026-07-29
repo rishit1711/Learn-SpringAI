@@ -12,7 +12,7 @@ public class RagTests {
 
     @Test
     public void testIngest(){
-         ragService.ingestPdfToVectorStore();
+         ragService.askAIwithAdvisors("What is my name??","rishit123");
 
     }
 
