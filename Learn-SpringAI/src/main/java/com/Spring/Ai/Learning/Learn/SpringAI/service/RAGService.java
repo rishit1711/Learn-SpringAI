@@ -1,6 +1,7 @@
 package com.Spring.Ai.Learning.Learn.SpringAI.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -26,6 +27,20 @@ public class RAGService {
 
     @Value("classpath:xyz.pdf")
      Resource pdfFile;
+
+
+    public String askAIwithAdvisors(String prompt){
+        return chatClient
+                .prompt()
+                .system("")
+                .user(prompt)
+                .advisors(
+                        VectorStoreChatMemoryAdvisor.builder(vectorStore)
+                                .build()
+                )
+                .call()
+                .content();
+    }
 
 
     public String askAI(String question) {
