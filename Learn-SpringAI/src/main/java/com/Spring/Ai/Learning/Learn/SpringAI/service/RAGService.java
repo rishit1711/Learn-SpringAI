@@ -29,13 +29,14 @@ public class RAGService {
      Resource pdfFile;
 
 
-    public String askAIwithAdvisors(String prompt){
+    public String askAIwithAdvisors(String prompt,String userId){
         return chatClient
                 .prompt()
                 .system("")
                 .user(prompt)
                 .advisors(
                         VectorStoreChatMemoryAdvisor.builder(vectorStore)
+                                .defaultTopK(4)
                                 .build()
                 )
                 .call()
