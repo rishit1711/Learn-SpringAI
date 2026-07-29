@@ -1,12 +1,16 @@
 package com.Spring.Ai.Learning.Learn.SpringAI.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.reader.pdf.PagePdfDocumentReader;
+import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +23,9 @@ public class RAGService {
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
     private final EmbeddingModel embeddingModel;
+
+    @Value("classpath:xyz.pdf")
+     Resource pdfFile;
 
 
     public String askAI(String question) {
@@ -66,6 +73,21 @@ public class RAGService {
                 .call()
                 .content();
     }
+
+    public void ingestPdfToVectorStore(){
+        PagePdfDocumentReader reader =new PagePdfDocumentReader(pdfFile);
+        List<Document> pages = reader.get();
+        TokenTextSplitter splitter= TokenTextSplitter.builder()
+                .withChunkSize(200)
+
+                .build();
+
+        List<Document> chunks = splitter.apply(pages);
+        vectorStore.add(chunks);
+
+
+    }
+
 
 
 }
