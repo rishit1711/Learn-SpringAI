@@ -26,8 +26,10 @@ public class AItests {
         }
     }
         @Test
-                public void toStore(){
-            aiService.ingest();
+        public void toStore(){
+
+
+        aiService.ingest();
         }
     @Test
     public void search(){
