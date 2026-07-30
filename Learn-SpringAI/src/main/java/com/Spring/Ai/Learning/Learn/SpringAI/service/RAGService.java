@@ -1,7 +1,11 @@
 package com.Spring.Ai.Learning.Learn.SpringAI.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -18,15 +22,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.springframework.web.servlet.function.RequestPredicates.param;
+
 @Service
 @RequiredArgsConstructor
 public class RAGService {
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
     private final EmbeddingModel embeddingModel;
+    private final ChatMemory chatMemory;
 
     @Value("classpath:xyz.pdf")
      Resource pdfFile;
+
 
 
     public String askAIwithAdvisors(String prompt,String userId){
@@ -41,6 +49,19 @@ public class RAGService {
                 )
                 .call()
                 .content();
+    }
+    public String testAdvisor(String prompt,String conversationId){
+        return chatClient.prompt()
+                .user(prompt)
+                .advisors(a -> a
+                        .advisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
+                        .advisors(SafeGuardAdvisor.builder().sensitiveWords(List.of("competitor","kill"))
+                                .build())
+                        .param(ChatMemory.CONVERSATION_ID, conversationId)
+                )
+                .call()
+                .content();
+
     }
 
 
